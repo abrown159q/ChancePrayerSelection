@@ -57,7 +57,7 @@
 
         // JSON data embedded as a JavaScript variable
 const elements = [				
-{	name:"Sacred Space",	description:"Go to sacredspace.ie."	}	,
+{	name:"Sacred Space",	description:"Go to <a href='sacredspace.ie'>Sacred Space</a>."	}	,
 {	name:"Vocal Prayer",	description:"Say a simple prayer"	}	,
 {	name:"Examen",	description:""	}	,
 {	name:"Lectio Divina",	description:"Lectio, oratio, meditatio, contemplatio"	}	,
@@ -88,7 +88,7 @@ const elements = [
             const selectedObject = elements.find((element) => element.name === selectedElement);
 
             if (selectedObject) {
-                description.textContent = selectedObject.description;
+                description.innerHTML = selectedObject.description;
                 descriptionContainer.style.opacity = 1;
             } else {
                 description.textContent = "No description available.";
