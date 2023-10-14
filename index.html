@@ -20,6 +20,8 @@
             font-size: 24px;
             font-weight: bold;
             margin-top: 20px;
+            opacity: 1; /* Element initially visible */
+            transition: opacity 0.5s ease-in-out; /* Add fade transition */
         }
         #description-container {
             display: none;
@@ -31,7 +33,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: opacity 1s ease-in-out;
         }
-        #show-description-button {
+        .button {
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -42,16 +44,16 @@
     </style>
 </head>
 <body>
-    <h1>Chance Prayer Selection</h1> <!-- Updated <h1> content -->
+    <h1>Chance Prayer Selection</h1>
     <div id="element-container">Loading...</div>
     
-    <button id="show-description-button">Show Description</button>
+    <button id="show-description-button" class="button">Show Description</button>
     
     <div id="description-container">
         <p id="description"></p>
     </div>
 
-    <button id="change-element-button">Change Element</button>
+    <button id="change-element-button" class="button">Change Prayer Style</button>
 
     <script>
         const elementContainer = document.getElementById("element-container");
@@ -61,16 +63,20 @@
         const changeElementButton = document.getElementById("change-element-button");
 
         // JSON data embedded as a JavaScript variable
-        const elements = [
-            {
-                name: "Sacred Space",
-                description: "Sacred space refers to a place or environment that is set apart for spiritual or religious purposes, often characterized by a sense of reverence and holiness."
-            },
-            {
-                name: "Vocal Prayer",
-                description: "Vocal prayer involves the use of spoken words to communicate with a higher power, expressing thoughts, gratitude, or requests through verbal communication."
-            }
-        ];
+const elements = [				
+{	name:"Sacred Space",	description:"Go to <a href='sacredspace.ie'>Sacred Space</a>."	}	,
+{	name:"Vocal Prayer",	description:"Say a simple prayer"	}	,
+{	name:"Examen",	description:"Go to <a href='https://www.jesuits.org/spirituality/the-ignatian-examen/'>Ignatian Examen</a>."	}	,
+{	name:"Lectio Divina",	description:"Lectio, oratio, meditatio, contemplatio"	}	,
+{	name:"ARRR (ARGT)",	description:"Acknowledge, Relate, Receive, Respond"	}	,
+{	name:"Meditative Prayer",	description:"Meditate"	}	,
+{	name:"Contemplative Prayer",	description:"Comtemplate"	}	,
+{	name:"Imaginative Prayer",	description:"Imagine one of the visible scenes in Scripture."	}	,
+{	name:"PRAY",	description:"Praise, Repent, Ask, Yeild"	}	
+				
+];				
+
+
 
         function getRandomElement() {
             const randomIndex = Math.floor(Math.random() * elements.length);
@@ -95,11 +101,16 @@
         }
 
         function changeRandomElement() {
-            elementContainer.style.opacity = 0; // Hide the element during transition
+            elementContainer.style.opacity = 0; // Fade out the element
             descriptionContainer.style.display = "none"; // Hide the description
+
             setTimeout(() => {
                 updateElement(); // Update the random element
-                elementContainer.style.opacity = 1; // Show the element with fade-in
+
+                // Use a timeout for the fade-in effect
+                setTimeout(() => {
+                    elementContainer.style.opacity = 1; // Fade in the element
+                }, 100);
             }, 500); // Adjust the delay as needed
         }
 
