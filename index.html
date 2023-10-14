@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Element Generator</title>
+    <title>Chance Prayer Selection</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             text-align: center;
             padding: 50px;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 1s ease-in-out; /* Add fade-in transition */
         }
         h1 {
             color: #333;
@@ -20,7 +22,7 @@
             margin-top: 20px;
         }
         #description-container {
-            opacity: 0;
+            display: none;
             margin-top: 20px;
             padding: 10px;
             background-color: #fff;
@@ -40,7 +42,7 @@
     </style>
 </head>
 <body>
-    <h1>Welcome to the Random Element Generator</h1>
+    <h1>Chance Prayer Selection</h1> <!-- Updated <h1> content -->
     <div id="element-container">Loading...</div>
     
     <button id="show-description-button">Show Description</button>
@@ -49,29 +51,26 @@
         <p id="description"></p>
     </div>
 
+    <button id="change-element-button">Change Element</button>
+
     <script>
         const elementContainer = document.getElementById("element-container");
         const descriptionContainer = document.getElementById("description-container");
         const description = document.getElementById("description");
         const showDescriptionButton = document.getElementById("show-description-button");
+        const changeElementButton = document.getElementById("change-element-button");
 
         // JSON data embedded as a JavaScript variable
-const elements = [				
-{	name:"Sacred Space",	description:"Go to <a href='sacredspace.ie'>Sacred Space</a>."	}	,
-{	name:"Vocal Prayer",	description:"Say a simple prayer"	}	,
-{	name:"Examen",	description:""	}	,
-{	name:"Lectio Divina",	description:"Lectio, oratio, meditatio, contemplatio"	}	,
-{	name:"ARRR (ARGT)",	description:"Acknowledge, Relate, Receive, Respond"	}	,
-{	name:"Meditative Prayer",	description:"Meditate"	}	,
-{	name:"Contemplative Prayer",	description:"Comtemplate"	}	,
-{	name:"Imaginative Prayer",	description:"Imagine"	}	,
-{	name:"PRAY",	description:"Praise, Repent, Ask, Yield"	}	
-				
-];				
-
-
-
-
+        const elements = [
+            {
+                name: "Sacred Space",
+                description: "Sacred space refers to a place or environment that is set apart for spiritual or religious purposes, often characterized by a sense of reverence and holiness."
+            },
+            {
+                name: "Vocal Prayer",
+                description: "Vocal prayer involves the use of spoken words to communicate with a higher power, expressing thoughts, gratitude, or requests through verbal communication."
+            }
+        ];
 
         function getRandomElement() {
             const randomIndex = Math.floor(Math.random() * elements.length);
@@ -88,15 +87,29 @@ const elements = [
             const selectedObject = elements.find((element) => element.name === selectedElement);
 
             if (selectedObject) {
-                description.innerHTML = selectedObject.description;
-                descriptionContainer.style.opacity = 1;
+                description.textContent = selectedObject.description;
+                descriptionContainer.style.display = "block";
             } else {
                 description.textContent = "No description available.";
             }
         }
 
+        function changeRandomElement() {
+            elementContainer.style.opacity = 0; // Hide the element during transition
+            descriptionContainer.style.display = "none"; // Hide the description
+            setTimeout(() => {
+                updateElement(); // Update the random element
+                elementContainer.style.opacity = 1; // Show the element with fade-in
+            }, 500); // Adjust the delay as needed
+        }
+
         showDescriptionButton.addEventListener("click", showDescription);
-        window.addEventListener("load", updateElement);
+        changeElementButton.addEventListener("click", changeRandomElement);
+        window.addEventListener("load", () => {
+            // Fade in the entire website when it's loaded
+            document.body.style.opacity = 1;
+            updateElement();
+        });
     </script>
 </body>
 </html>
