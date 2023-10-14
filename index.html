@@ -1,43 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Element Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #333;
-        }
-        #element-container {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        #description-container {
-            opacity: 0;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            transition: opacity 1s ease-in-out;
-        }
-        #show-description-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-    </style>
+    <!-- Your existing head content -->
 </head>
 <body>
     <h1>Welcome to the Random Element Generator</h1>
@@ -50,45 +14,48 @@
     </div>
 
     <script>
-        const elements = ["Sacred Space", "Vocal Prayer"];
         const elementContainer = document.getElementById("element-container");
         const descriptionContainer = document.getElementById("description-container");
         const description = document.getElementById("description");
         const showDescriptionButton = document.getElementById("show-description-button");
 
-        function getRandomElement() {
-            const randomIndex = Math.floor(Math.random() * elements.length);
-            return elements[randomIndex];
-        }
+        async function fetchElements() {
+            try {
+                const response = await fetch('elements.json');
+                const data = await response.json();
 
-        function updateElement() {
-            const randomElement = getRandomElement();
-            elementContainer.textContent = randomElement;
-        }
+                const elements = data.elements;
 
-        function showDescription() {
-            const selectedElement = elementContainer.textContent;
-            let elementDescription = "";
+                function getRandomElement() {
+                    const randomIndex = Math.floor(Math.random() * elements.length);
+                    return elements[randomIndex];
+                }
 
-            // Define descriptions for each element
-            switch (selectedElement) {
-                case "Sacred Space":
-                    elementDescription = "Sacred space refers to a place or environment that is set apart for spiritual or religious purposes, often characterized by a sense of reverence and holiness.";
-                    break;
-                case "Vocal Prayer":
-                    elementDescription = "Vocal prayer involves the use of spoken words to communicate with a higher power, expressing thoughts, gratitude, or requests through verbal communication.";
-                    break;
-                default:
-                    elementDescription = "No description available.";
-                    break;
+                function updateElement() {
+                    const randomElement = getRandomElement();
+                    elementContainer.textContent = randomElement.name;
+                }
+
+                function showDescription() {
+                    const selectedElement = elementContainer.textContent;
+                    const selectedObject = elements.find((element) => element.name === selectedElement);
+
+                    if (selectedObject) {
+                        description.textContent = selectedObject.description;
+                        descriptionContainer.style.opacity = 1;
+                    } else {
+                        description.textContent = "No description available.";
+                    }
+                }
+
+                showDescriptionButton.addEventListener("click", showDescription);
+                window.addEventListener("load", updateElement);
+            } catch (error) {
+                console.error(error);
             }
-
-            description.textContent = elementDescription;
-            descriptionContainer.style.opacity = 1;
         }
 
-        showDescriptionButton.addEventListener("click", showDescription);
-        window.addEventListener("load", updateElement);
+        fetchElements();
     </script>
 </body>
 </html>
