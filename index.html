@@ -55,43 +55,48 @@
         const description = document.getElementById("description");
         const showDescriptionButton = document.getElementById("show-description-button");
 
-        async function fetchElements() {
-            try {
-                const response = await fetch('elements.json');
-                const data = await response.json();
+        // JSON data embedded as a JavaScript variable
+const elements = [				
+{	name:"Sacred Space",	description:"Go to sacredspace.ie."	}	,
+{	name:"Vocal Prayer",	description:"Say a simple prayer"	}	,
+{	name:"Examen",	description:""	}	,
+{	name:"Lectio Divina",	description:"Lectio, oratio, meditatio, contemplatio"	}	,
+{	name:"ARRR (ARGT)",	description:"Acknowledge, Relate, Receive, Respond"	}	,
+{	name:"Meditative Prayer",	description:"Meditate"	}	,
+{	name:"Contemplative Prayer",	description:"Comtemplate"	}	,
+{	name:"Imaginative Prayer",	description:"Imagine"	}	,
+{	name:"PRAY",	description:"Praise, Repent, Ask, Yield"	}	
+				
+];				
 
-                const elements = data.elements;
 
-                function getRandomElement() {
-                    const randomIndex = Math.floor(Math.random() * elements.length);
-                    return elements[randomIndex];
-                }
 
-                function updateElement() {
-                    const randomElement = getRandomElement();
-                    elementContainer.textContent = randomElement.name;
-                }
 
-                function showDescription() {
-                    const selectedElement = elementContainer.textContent;
-                    const selectedObject = elements.find((element) => element.name === selectedElement);
 
-                    if (selectedObject) {
-                        description.textContent = selectedObject.description;
-                        descriptionContainer.style.opacity = 1;
-                    } else {
-                        description.textContent = "No description available.";
-                    }
-                }
+        function getRandomElement() {
+            const randomIndex = Math.floor(Math.random() * elements.length);
+            return elements[randomIndex];
+        }
 
-                showDescriptionButton.addEventListener("click", showDescription);
-                window.addEventListener("load", updateElement);
-            } catch (error) {
-                console.error(error);
+        function updateElement() {
+            const randomElement = getRandomElement();
+            elementContainer.textContent = randomElement.name;
+        }
+
+        function showDescription() {
+            const selectedElement = elementContainer.textContent;
+            const selectedObject = elements.find((element) => element.name === selectedElement);
+
+            if (selectedObject) {
+                description.textContent = selectedObject.description;
+                descriptionContainer.style.opacity = 1;
+            } else {
+                description.textContent = "No description available.";
             }
         }
 
-        fetchElements();
+        showDescriptionButton.addEventListener("click", showDescription);
+        window.addEventListener("load", updateElement);
     </script>
 </body>
 </html>
