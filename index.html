@@ -93,7 +93,7 @@ const elements = [
             const selectedObject = elements.find((element) => element.name === selectedElement);
 
             if (selectedObject) {
-                description.textContent = selectedObject.description;
+                description.innerHTML = selectedObject.description;
                 descriptionContainer.style.display = "block";
             } else {
                 description.textContent = "No description available.";
